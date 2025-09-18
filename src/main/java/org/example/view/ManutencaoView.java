@@ -62,4 +62,8 @@ public class ManutencaoView {
         }
     }
 
+    public static void cadastroPeca() {
+
+    }
+
 }
