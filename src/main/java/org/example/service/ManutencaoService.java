@@ -56,6 +56,14 @@ public class ManutencaoService {
 
                 case 3 -> {
 
+                    System.out.println(" ");
+                    System.out.println(" ---------------------- ");
+                    System.out.println("|     CADASTRO PEÇA    |");
+                    System.out.println(" ---------------------- ");
+                    System.out.println(" ");
+
+                    ManutencaoView.cadastroPeca();
+
                 }
 
                 case 4 -> {

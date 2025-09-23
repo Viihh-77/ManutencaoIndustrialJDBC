@@ -4,8 +4,10 @@ import java.sql.SQLException;
 import java.util.Scanner;
 
 import org.example.dao.MaquinaDAO;
+import org.example.dao.PecaDAO;
 import org.example.dao.TecnicoDAO;
 import org.example.model.Maquina;
+import org.example.model.Peca;
 import org.example.model.Tecnico;
 
 public class ManutencaoView {
@@ -63,7 +65,27 @@ public class ManutencaoView {
     }
 
     public static void cadastroPeca() {
+        try {
+            var pecaDAO = new PecaDAO();
 
+            System.out.println("-- Nome: ");
+            String nome = input.nextLine();
+
+            System.out.println("-- Estoque: ");
+            double estoque = input.nextDouble();
+
+            Peca peca = new Peca(nome, estoque);
+            boolean sucesso = pecaDAO.cadastroPeca(peca);
+
+            if (sucesso) {
+                System.out.println("Sucesso: Peça cadastrada!");
+            } else {
+                System.out.println("Erro: Peça não cadastrada!");
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+            System.out.println("Erro: Peça não cadastrada no banco de dados!");
+        }
     }
 
 }
