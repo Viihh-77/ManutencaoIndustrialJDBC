@@ -15,52 +15,59 @@ public class ManutencaoView {
     static Scanner input = new Scanner(System.in);
 
     public static void cadastroMaquina() {
-        try {
+        System.out.println("-- Nome: ");
+        String nome = input.nextLine();
+
+        System.out.println("-- Setor: ");
+        String setor = input.nextLine();
+
+        if (!nome.isEmpty() && !setor.isEmpty()) {
+            var maquina = new Maquina(nome, setor, "OPERACIONAL");
             var maquinaDAO = new MaquinaDAO();
 
-            System.out.println("-- Nome: ");
-            String nome = input.nextLine();
+            try {
+                if (!maquinaDAO.verificaDuplicacao(maquina)) {
+                    maquinaDAO.cadastrarMaquina(maquina);
+                    System.out.println("Sucesso: Maquina cadastrada!");
+                } else {
+                    System.out.println("Erro: Maquina já cadastrada!");
+                }
 
-            System.out.println("-- Setor: ");
-            String setor = input.nextLine();
-
-            Maquina maquina = new Maquina(nome,setor);
-            boolean sucesso = maquinaDAO.cadastrarMaquina(maquina);
-
-            if (sucesso) {
-                System.out.println("Sucesso: Máquina cadastrada!");
-            } else {
-                System.out.println("Erro: Máquina não cadastrada!");
+            } catch (SQLException e) {
+                System.out.println("Erro: Maquina não cadastrada no Banco de Dados!");
+                e.printStackTrace();
             }
-
-        } catch (SQLException e) {
-            e.printStackTrace();
-            System.out.println("Erro: Máquina não cadastrada no banco de dados!");
+        } else {
+            System.out.println("Erro: MAQUINA ou SETOR não podem ser nulos!");
         }
     }
 
     public static void cadastroTecnico() {
-        try {
+
+        System.out.println("Nome: ");
+        String nome = input.nextLine();
+
+        System.out.println("Especialidade: ");
+        String especialidade = input.nextLine();
+
+        if (!nome.isEmpty() && !especialidade.isEmpty()) {
+            var tecnico = new Tecnico(nome, especialidade);
             var tecnicoDAO = new TecnicoDAO();
 
-            System.out.println("-- Nome: ");
-            String nome = input.nextLine();
+            try {
+                if (!tecnicoDAO.verificaDuplicidade(tecnico.getNome())) {
+                    tecnicoDAO.cadastrarTecnico(tecnico);
+                    System.out.println("Sucesso: Tecnico cadastrado!");
+                } else {
+                    System.out.println("Erro: Tecnico já cadastrado!");
+                }
 
-            System.out.println("-- Especialidade: ");
-            String especialidade = input.nextLine();
-
-            Tecnico tecnico = new Tecnico(nome, especialidade);
-            boolean sucesso = tecnicoDAO.cadastroTecnico(tecnico);
-
-            if (sucesso) {
-                System.out.println("Sucesso: Técnico cadastrado!");
-            } else {
-                System.out.println("Erro: Técnico não cadastrado!");
+            } catch (SQLException e) {
+                e.printStackTrace();
+                System.out.println("Erro: Tecnico não cadastrado no Bando de Dados!");
             }
-
-        } catch (SQLException e) {
-            e.printStackTrace();
-            System.out.println("Erro: Técnico não cadastrado no banco de dados!");
+        } else {
+            System.out.println("Erro: NOME ou ESPECIALIDADE não podem ser nulos!");
         }
     }
 

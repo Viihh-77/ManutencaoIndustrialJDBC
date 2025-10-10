@@ -10,52 +10,38 @@ import java.sql.SQLException;
 
 public class TecnicoDAO {
 
-    public boolean cadastroTecnico (Tecnico tecnico) throws SQLException {
-
-        if (tecnico.getNome() == null || tecnico.getNome().isEmpty() ||
-            tecnico.getEspecialidade() == null || tecnico.getEspecialidade().isEmpty()) {
-            System.out.println("Erro: Nome e Especialidade são obrigatórios!");
-            return false;
-        }
-
-        if (existeTecnico(tecnico.getNome(), tecnico.getEspecialidade())) {
-            System.out.println("Erro: Já existe um cadastro com este nome!");
-            return false;
-        }
-
+    public void cadastrarTecnico(Tecnico tecnico) throws SQLException {
         String query = """
                 INSERT INTO Tecnico
-                (nome,especialidade)
+                (nome, especialidade)
                 VALUES
                 (?,?)
                 """;
 
         try (Connection conn = Conexao.conectar();
-             PreparedStatement stmt = conn.prepareStatement(query)) {
+        PreparedStatement stmt = conn.prepareStatement(query)){
 
             stmt.setString(1, tecnico.getNome());
             stmt.setString(2, tecnico.getEspecialidade());
-            int linhas = stmt.executeUpdate();
-
-            return linhas > 0;
+            stmt.executeUpdate();
         }
     }
 
-    private boolean existeTecnico(String nome, String especialidade) throws SQLException {
-
+    public boolean verificaDuplicidade(String nome) throws SQLException {
         String query = """
-                SELECT COUNT(*) FROM Tecnico WHERE nome = ? AND  especialidade = ?
+                SELECT COUNT(0) AS linhas
+                FROM Tecnico
+                WHERE nome = ?
                 """;
 
         try (Connection conn = Conexao.conectar();
-            PreparedStatement stmt = conn.prepareStatement(query)) {
+        PreparedStatement stmt = conn.prepareStatement(query)) {
 
             stmt.setString(1, nome);
-            stmt.setString(2, especialidade);
             ResultSet rs = stmt.executeQuery();
 
-            if (rs.next()) {
-                return rs.getInt(1) > 0;
+            if (rs.next() && rs.getInt("linhas") > 0) {
+                return true;
             }
         }
 
