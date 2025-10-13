@@ -68,6 +68,14 @@ public class ManutencaoService {
 
                 case 4 -> {
 
+                    System.out.println(" ");
+                    System.out.println(" ---------------------- ");
+                    System.out.println("|      CRIAR ORDEM     |");
+                    System.out.println(" ---------------------- ");
+                    System.out.println(" ");
+
+                    ManutencaoView.cadastrarOrdemManutencao();
+
                 }
 
                 case 5 -> {

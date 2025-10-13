@@ -5,12 +5,12 @@ import java.time.LocalDate;
 public class OrdemManutencao {
 
     private int id;
-    private Maquina idMaquina;
-    private Tecnico idTecnico;
+    private int idMaquina;
+    private int idTecnico;
     private LocalDate dataSolicitacao;
     private String status;
 
-    public OrdemManutencao(int id, Maquina idMaquina, Tecnico idTecnico, LocalDate dataSolicitacao, String status) {
+    public OrdemManutencao(int id, int idMaquina, int idTecnico, LocalDate dataSolicitacao, String status) {
         this.id = id;
         this.idMaquina = idMaquina;
         this.idTecnico = idTecnico;
@@ -18,7 +18,7 @@ public class OrdemManutencao {
         this.status = status;
     }
 
-    public OrdemManutencao(Maquina idMaquina, Tecnico idTecnico, LocalDate dataSolicitacao, String status) {
+    public OrdemManutencao(int idMaquina, int idTecnico, LocalDate dataSolicitacao, String status) {
         this.idMaquina = idMaquina;
         this.idTecnico = idTecnico;
         this.dataSolicitacao = dataSolicitacao;
@@ -29,11 +29,11 @@ public class OrdemManutencao {
         return id;
     }
 
-    public Maquina getIdMaquina() {
+    public int getIdMaquina() {
         return idMaquina;
     }
 
-    public Tecnico getIdTecnico() {
+    public int getIdTecnico() {
         return idTecnico;
     }
 
@@ -49,11 +49,11 @@ public class OrdemManutencao {
         this.id = id;
     }
 
-    public void setIdMaquina(Maquina idMaquina) {
+    public void setIdMaquina(int idMaquina) {
         this.idMaquina = idMaquina;
     }
 
-    public void setIdTecnico(Tecnico idTecnico) {
+    public void setIdTecnico(int idTecnico) {
         this.idTecnico = idTecnico;
     }
 
