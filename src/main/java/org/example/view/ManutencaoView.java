@@ -111,8 +111,6 @@ public class ManutencaoView {
 
     public static void cadastrarOrdemManutencao() {
 
-        System.out.println("Cadastro Ordem de Manutenção");
-
         var maquinaDAO = new MaquinaDAO();
         List<Maquina> maquinas = new ArrayList<>();
         List<Tecnico> tecnicos = new ArrayList<>();
