@@ -7,14 +7,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
 
-import org.example.dao.MaquinaDAO;
-import org.example.dao.OrdemManutencaoDAO;
-import org.example.dao.PecaDAO;
-import org.example.dao.TecnicoDAO;
-import org.example.model.Maquina;
-import org.example.model.OrdemManutencao;
-import org.example.model.Peca;
-import org.example.model.Tecnico;
+import org.example.dao.*;
+import org.example.model.*;
 import org.example.util.Conexao;
 
 public class ManutencaoView {
@@ -137,6 +131,7 @@ public class ManutencaoView {
         System.out.println("ID Maquina: ");
         int idMaquina = input.nextInt();
         input.nextLine();
+        System.out.println(" ");
 
         var tecnicoDAO = new TecnicoDAO();
 
@@ -158,6 +153,8 @@ public class ManutencaoView {
                 opcoesTecnicos.add(tecnico.getId());
             });
 
+            System.out.println(" ");
+            System.out.println("ID Tecnico: ");
             int idTecnico = input.nextInt();
             input.nextLine();
 
@@ -185,25 +182,112 @@ public class ManutencaoView {
                         e2.printStackTrace();
                     }
                     System.out.println("Erro: Ordem de Manutenção não cadastrada no Banco de Dados!");
-        } finally {
-            try{
-                conn.close();
-            } catch (SQLException e) {
-                e.printStackTrace();
+                } finally {
+                    try{
+                        conn.close();
+                    } catch (SQLException e) {
+                        e.printStackTrace();
+                    }
+                }
+
+            } else {
+                System.out.println("Erro: Opção inválida!");
             }
+
+        } else {
+            System.out.println("Erro: ID inválido!");
         }
-
-    } else {
-        System.out.println("Erro: Opção inválida!");
-    }
-
-} else {
-    System.out.println("Erro: ID inválido!");
-}
-
     }
 
     public static void associarPecasOrdem() {
+        boolean sair = false;
+        List<OrdemManutencaoPeca> ordemManutencaoPecas = new ArrayList<>();
+        List<Integer> opcoesOrdem = new ArrayList<>();
+
+        var ordemManutencaoDAO = new OrdemManutencaoDAO();
+
+        try {
+            ordemManutencaoPecas = ordemManutencaoDAO.listarOrdens();
+        } catch (SQLException e) {
+            System.out.println("Erro: não foi possivel fazer a busca no banco de dados!");
+            e.printStackTrace();
+        }
+
+        System.out.println("Ordens Pendentes: ");
+        ordemManutencaoPecas.forEach(ordem -> {
+
+            System.out.println("ID ordem: " + ordem.getId());
+            System.out.println("ID maquina: " + ordem.getIdMaquina());
+            System.out.println("Nome máquina: " + ordem.getNomeMaquina());
+            System.out.println("ID técnico: " + ordem.getIdTecnico());
+            System.out.println("Nome técnico: " + ordem.getNomeTecnico());
+            System.out.println("Status: " + ordem.getStatus());
+            System.out.println("Data solicitação: " + ordem.getDataSolicitacao());
+            System.out.println(" ");
+
+            opcoesOrdem.add(ordem.getId());
+        });
+
+        System.out.println("ID ordem: ");
+        int idOrdem = input.nextInt();
+        input.nextLine();
+
+        var pecaDAO = new PecaDAO();
+        List<Peca> pecas = new ArrayList<>();
+
+        if (opcoesOrdem.contains(idOrdem)) {
+            try {
+                pecas = pecaDAO.listarPecas();
+            } catch (SQLException e) {
+                e.printStackTrace();
+                System.out.println("Erro: não foi possivel conectar ao banco de dados!");
+            }
+
+            List<Integer> opcoesPecas = new ArrayList<>();
+            System.out.println("Lista de Peças: ");
+
+            pecas.forEach(peca -> {
+                System.out.println("ID: " + peca.getId());
+                System.out.println("Nome: " + peca.getNome());
+                System.out.println("Estoque: " + peca.getEstoque());
+
+                opcoesPecas.add(peca.getId());
+            });
+
+            System.out.println("ID peça: ");
+            int idPeca = input.nextInt();
+            input.nextLine();
+
+            if (opcoesPecas.contains(idPeca)) {
+                System.out.println("Quantidade: ");
+                double quantidade = input.nextDouble();
+                input.nextLine();
+
+                int indicePeca = opcoesPecas.indexOf(idPeca);
+                Peca pecaEscolhida = pecas.get(indicePeca);
+
+                if (pecaEscolhida.getEstoque() >= quantidade) {
+                    var associarPecaDAO = new AssociarPecaDAO();
+
+                    try {
+                        associarPecaDAO.associarPecaOrdem(new OrdemPeca(idOrdem, idPeca,quantidade));
+                        pecas.remove(indicePeca);
+                        opcoesPecas.remove(indicePeca);
+                    } catch (SQLException e) {
+                        e.printStackTrace();
+                        System.out.println("Erro: não foi possivel se conectar ao banco de dados!");
+                    }
+                } else {
+                    System.out.println("Erro: estoque insuficiente!");
+                    return;
+                }
+            } else {
+                System.out.println("Erro: ID da peça inválido!");
+            }
+
+        } else {
+            System.out.println("Erro: opção inválida!");
+        }
 
     }
 }

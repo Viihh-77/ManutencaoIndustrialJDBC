@@ -18,8 +18,8 @@ public class OrdemManutencaoDAO {
     public void cadastrarOrdemManutencao(OrdemManutencao ordem, Connection conn) throws SQLException {
         String query = """
                 INSERT INTO OrdemManutencao 
-                (id_maquina
-                ,id_tecnico
+                (idMaquina
+                ,idTecnico
                 ,dataSolicitacao
                 ,status)
                 VALUES
@@ -36,19 +36,19 @@ public class OrdemManutencaoDAO {
             }
         }
 
-    public List<OrdemManutencao> listarOrdens() throws SQLException {
-        List<OrdemManutencao> ordens = new ArrayList<>();
+    public List<OrdemManutencaoPeca> listarOrdens() throws SQLException {
+        List<OrdemManutencaoPeca> ordens = new ArrayList<>();
         String query = """
-                SELECT 0.id
-                , O.id_maquina
+                SELECT O.id
+                , O.idMaquina
                 , M.nome AS nomeMaquina
-                , O.id_tecnico
+                , O.idTecnico
                 , T.nome AS nomeTecnico
-                , 0.status
-                , 0.dataSolicitacao
+                , O.status
+                , O.dataSolicitacao
                 FROM OrdemManutencao O
-                JOIN Maquina M ON O.id_maquina = M.id
-                JOIN Tecnico T ON O.id_tecnico = T.id
+                JOIN Maquina M ON O.idMaquina = M.id
+                JOIN Tecnico T ON O.idTecnico = T.id
                 WHERE O.status = 'PENDENTE'
                 """;
 
@@ -85,4 +85,4 @@ public class OrdemManutencaoDAO {
         
     }
 
-    }
+}
