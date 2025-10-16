@@ -86,6 +86,8 @@ public class ManutencaoService {
                     System.out.println(" ----------------------------------- ");
                     System.out.println(" ");
 
+                    ManutencaoView.associarPecasOrdem();
+
                 }
 
                 case 6 -> {

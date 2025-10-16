@@ -2,21 +2,21 @@ package org.example.model;
 
 public class OrdemPeca {
 
-    private OrdemManutencao idOrdem;
-    private Peca idPeca;
+    private int idOrdem;
+    private int idPeca;
     private double quantidade;
 
-    public OrdemPeca(OrdemManutencao idOrdem, Peca idPeca, double quantidade) {
+    public OrdemPeca(int idOrdem, int idPeca, double quantidade) {
         this.idOrdem = idOrdem;
         this.idPeca = idPeca;
         this.quantidade = quantidade;
     }
 
-    public OrdemManutencao getIdOrdem() {
+    public int getIdOrdem() {
         return idOrdem;
     }
 
-    public Peca getIdPeca() {
+    public int getIdPeca() {
         return idPeca;
     }
 
@@ -24,11 +24,11 @@ public class OrdemPeca {
         return quantidade;
     }
 
-    public void setIdOrdem(OrdemManutencao idOrdem) {
+    public void setIdOrdem(int idOrdem) {
         this.idOrdem = idOrdem;
     }
 
-    public void setIdPeca(Peca idPeca) {
+    public void setIdPeca(int idPeca) {
         this.idPeca = idPeca;
     }
 
