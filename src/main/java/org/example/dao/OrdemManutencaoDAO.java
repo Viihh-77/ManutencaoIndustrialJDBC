@@ -85,4 +85,31 @@ public class OrdemManutencaoDAO {
         
     }
 
+    public List<OrdemManutencao> listarPendencias() throws SQLException {
+        List<OrdemManutencao> ordensManut = new ArrayList<>();
+        String query = """
+                SELECT id 
+                FROM OrdemManutencao 
+                WHERE status = 'PENDENTE'
+                """;
+
+        try (Connection conn = Conexao.conectar();
+        PreparedStatement stmt = conn.prepareStatement(query)) {
+
+            ResultSet rs = stmt.executeQuery();
+            while (rs.next()) {
+                int id = rs.getInt("id");
+
+                var OrdemManutancao = new OrdemManutencao(
+                        id
+                );
+
+                ordensManut.add(OrdemManutancao);
+            }
+        }
+
+        return ordensManut;
+
+    }
+
 }

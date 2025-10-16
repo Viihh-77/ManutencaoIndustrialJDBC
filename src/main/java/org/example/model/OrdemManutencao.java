@@ -25,6 +25,10 @@ public class OrdemManutencao {
         this.status = status;
     }
 
+    public OrdemManutencao(int id) {
+        this.id = id;
+    }
+
     public int getId() {
         return id;
     }

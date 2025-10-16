@@ -98,6 +98,7 @@ public class ManutencaoService {
                     System.out.println(" ------------------------------ ");
                     System.out.println(" ");
 
+                    ManutencaoView.executarManutencao();
                 }
 
                 case 0 -> {
